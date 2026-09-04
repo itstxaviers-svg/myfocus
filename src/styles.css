@@ -105,7 +105,13 @@ body, button, input, textarea, select {
 .score b { font-size: 29px; }
 .presets button { font-size: 15px; }
 .task-copy strong { font-family: 'Comfortaa', 'Arial Rounded MT Bold', sans-serif; font-weight: 700; }
-.timer strong, .header-time strong { font-family: 'Share Tech Mono', monospace; }
+.timer strong, .header-time strong {
+  font-family: 'Comfortaa', 'Arial Rounded MT Bold', ui-rounded, sans-serif;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -2px;
+}
+.header-time strong { letter-spacing: -1px; }
 @media (max-width: 430px) {
   .brand { font-size: 18px; }
   .brand b { font-size: 25px; }
