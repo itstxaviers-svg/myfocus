@@ -160,3 +160,158 @@ body, button, input, textarea, select {
   .moods { gap: 6px; }
   .moods button small { font-size: 8px; }
 }
+
+/* Reference-shaped feature panels. */
+.notebook-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 74px;
+  margin: -5px 0 6px;
+  pointer-events: none;
+}
+.notebook-brand img {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 2px rgba(202, 73, 126, .25));
+}
+.notebook-brand strong {
+  display: grid;
+  font-family: 'Rubik Bubbles', 'Arial Rounded MT Bold', cursive;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: .82;
+  text-align: left;
+  text-shadow: 1px 1px #fff, -1px -1px #fff, 2px 2px #d34a86;
+}
+.notebook-brand span { color: #4fc3df; }
+.notebook-brand b { color: #fb65a3; font-size: 29px; font-weight: 400; }
+.todo {
+  isolation: isolate;
+  background: linear-gradient(180deg, #ffbad0 0 66px, #fff9ee 66px);
+  border: 3px solid #ed6e9b;
+  border-radius: 29px;
+  box-shadow: 0 7px 0 #d85b8b, 0 14px 24px rgba(119, 52, 93, .17), inset 0 0 0 4px #ffe7ee;
+}
+.todo::after {
+  content: '';
+  position: absolute;
+  z-index: 4;
+  top: 155px;
+  bottom: 22px;
+  left: -12px;
+  width: 30px;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, transparent 0 42px, #f59bc3 42px 49px, #b95a9d 49px 52px, transparent 52px 92px);
+  border-radius: 999px;
+  filter: drop-shadow(1px 2px 1px rgba(122, 48, 91, .22));
+}
+.todo .panel-title { margin-inline: 9px; }
+.todo .task-list {
+  min-height: 315px;
+  padding: 7px 10px 18px 22px;
+  border: 2px solid #ef9bb3;
+  border-radius: 18px;
+  background: repeating-linear-gradient(to bottom, rgba(255, 252, 242, .94) 0 43px, #ead8d4 44px, rgba(255, 252, 242, .94) 45px);
+  box-shadow: inset 0 2px 8px rgba(172, 97, 119, .08);
+}
+.todo .task { min-height: 45px; padding-block: 6px; border-bottom: 0; }
+.todo .empty { min-height: 285px; }
+.filters { padding: 5px 1px 13px; border: 0; }
+.filters button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 36px;
+  padding: 6px 13px;
+  border-width: 2px;
+  border-style: solid;
+  box-shadow: 0 3px 0 rgba(102, 55, 93, .16), inset 0 2px rgba(255,255,255,.82);
+}
+.filters .filter-today { background: linear-gradient(#fffaf1, #ffe5d6); border-color: #e9a58f; color: #b26925; }
+.filters .filter-upcoming { background: linear-gradient(#effcff, #bdeaff); border-color: #6cbce4; color: #246a9f; }
+.filters .filter-unscheduled { background: linear-gradient(#faf2ff, #e4caff); border-color: #ab7ddb; color: #684591; }
+.filters .filter-completed { background: linear-gradient(#edfff2, #c1edce); border-color: #72bf93; color: #247e54; }
+.filters button.selected { transform: translateY(-2px); box-shadow: 0 5px 0 currentColor, inset 0 2px #fff; }
+
+.focus-panel {
+  padding: 30px 22px 20px;
+  border: 3px solid #e96698;
+  border-radius: 88px 88px 31px 31px;
+  background: linear-gradient(155deg, #fff9ed 0%, #ffe4df 73%, #ffc1cd 100%);
+  box-shadow: 0 8px 0 #cc5786, 0 16px 28px rgba(110, 53, 89, .19), inset 0 0 0 5px #ffeaf0;
+}
+.focus-panel>.panel-title {
+  position: absolute;
+  z-index: 8;
+  top: 15px;
+  right: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.focus-panel>.panel-title>span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.focus-panel .timer-shell {
+  width: min(100%, 372px);
+  margin-top: 11px;
+  border: 4px solid #dc5e91;
+  background: conic-gradient(#62d5ce var(--progress), #fbd5dd 0);
+  box-shadow: 0 6px 0 #a95e91, 0 0 0 8px #ffdbe5, 0 12px 24px rgba(100, 46, 82, .2), inset 0 0 0 6px #fff1e9;
+}
+.focus-panel .timer-shell::before { inset: 16px; border-width: 3px; }
+.focus-panel .timer { inset: 34px; border: 4px solid #399c9f; box-shadow: inset 0 4px 16px rgba(23, 104, 104, .2), 0 0 0 6px #d9fff4; }
+.focus-panel .timer strong {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(58px, 6vw, 76px);
+  font-weight: 400;
+  letter-spacing: -5px;
+  color: #17232e;
+}
+.focus-panel .timer small { font-size: 13px; color: #18385c; }
+.focus-panel .timer-crown { width: 132px; height: 88px; top: -41px; left: calc(50% - 66px); }
+.focus-panel .timer-ornaments { inset: -20%; width: 140%; height: 140%; }
+.focus-panel .task-picker { margin-top: 10px; }
+.focus-panel .timer-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 46px;
+  gap: 9px;
+}
+.focus-panel .timer-actions .primary { min-width: 0; }
+.focus-panel .timer-actions .primary,
+.focus-panel .timer-actions .secondary { min-height: 46px; }
+
+.calendar {
+  border: 3px solid #e98591;
+  border-radius: 23px;
+  background: linear-gradient(145deg, #fffaf0, #ffede2);
+  box-shadow: 0 6px 0 #d27b86, 0 12px 20px rgba(103, 59, 79, .16), inset 0 0 0 4px #ffe9e3;
+}
+.calendar-head { justify-content: center; position: relative; min-height: 34px; margin-bottom: 7px; }
+.calendar-head>span { text-transform: uppercase; color: #113b7c; }
+.calendar-head>div { position: absolute; inset: 0; justify-content: space-between; pointer-events: none; }
+.calendar-head>div button { pointer-events: auto; color: #d46f54; }
+.calendar-head>div button:nth-child(2) { opacity: 0; width: 50%; }
+.calendar .week { font-size: 11px; }
+.calendar .grid { gap: 4px 3px; }
+.calendar .grid button { min-height: 30px; font-size: 12px; }
+.calendar .grid .today { background: #fff8ec; color: #283b5e; border-color: #f0a424; box-shadow: inset 0 0 0 2px #ffe2a0; }
+.calendar .grid .selected { background: linear-gradient(#ff7aaf, #f43b86); color: #fff; border-color: #e32e73; box-shadow: inset 0 2px rgba(255,255,255,.72), 0 2px 0 #bd3066; }
+
+@media (max-width: 430px) {
+  .notebook-brand { min-height: 60px; }
+  .notebook-brand img { width: 59px; height: 59px; }
+  .notebook-brand strong { font-size: 19px; }
+  .notebook-brand b { font-size: 23px; }
+  .todo::after { top: 137px; left: -11px; }
+  .todo .task-list { min-height: 260px; padding-left: 18px; }
+  .filters button { flex: 0 0 auto; min-height: 36px; padding-inline: 11px; }
+  .focus-panel { padding: 27px 13px 16px; border-radius: 62px 62px 25px 25px; }
+  .focus-panel .timer-shell { width: min(76vw, 294px); }
+  .focus-panel .timer { inset: 28px; }
+  .focus-panel .timer strong { font-size: clamp(51px, 15vw, 62px); }
+  .focus-panel .timer-crown { width: 106px; height: 70px; top: -34px; left: calc(50% - 53px); }
+  .calendar .grid button { min-height: 35px; }
+}
