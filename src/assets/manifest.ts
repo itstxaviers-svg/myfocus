@@ -17,7 +17,7 @@ export const assets = {
   },
   mascots: {
     taskComplete: source + '36_mascot_task_complete.png', focusComplete: source + '37_mascot_focus_complete.png',
-    threeTasks: source + '38_mascot_three_tasks.png', emptyTodo: source + '41_empty_todo_mascot.png', emptyCalendar: source + '42_empty_calendar_mascot.png'
+    threeTasks: source + '38_mascot_three_tasks.png', emptyTodo: source + '11_cat_happy.png', emptyCalendar: source + '42_empty_calendar_mascot.png'
   },
   decorations: {
     wand: source + '12_magic_wand.png', cloud: source + '16_cloud.png', clock: source + '17_alarm_clock.png',
