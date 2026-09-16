@@ -406,6 +406,7 @@ body, button, input, textarea, select {
 .income-total span { color: #5f6b84; font-size: 10px; font-weight: 700; }
 .income-total strong { overflow: hidden; color: #183d77; font-size: 21px; text-overflow: ellipsis; white-space: nowrap; }
 .income-stat { display: grid; place-items: center; min-height: 76px; padding: 8px; border: 2px solid #d7a9d9; border-radius: 18px; background: rgba(255,250,244,.76); color: #7e56a5; box-shadow: inset 0 2px #fff; }
+.income-stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 11px; }
 .income-stat strong { color: #173a74; font-size: 19px; line-height: 1; }
 .income-stat span { color: #67728a; font-size: 9px; }
 .groups-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 3px 6px; }
@@ -686,6 +687,9 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .currency-picker { font-size: 11px; }
   .currency-picker select, .attendance-toolbar select { min-height: 48px; font-size: 16px; }
   .income-total { min-height: 72px; }
+  .income-stats { grid-column: 1 / -1; gap: 8px; }
+  .income-stat { min-width: 0; min-height: 76px; padding: 7px 3px; }
+  .income-stat svg { width: 22px; height: 22px; }
   .income-total span, .income-stat span { font-size: 10px; }
   .income-total strong { font-size: 20px; }
   .groups-toolbar { align-items: center; padding-inline: 2px; }
