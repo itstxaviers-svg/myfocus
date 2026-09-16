@@ -1,20 +1,21 @@
 import { useState } from 'react';
-import { Coins, Plus, ReceiptText, Save, Sparkles, Trash2, UserPlus, UsersRound, WalletCards, X } from 'lucide-react';
+import { Coins, Edit3, Plus, ReceiptText, Save, Sparkles, Trash2, UserPlus, UsersRound, WalletCards, X } from 'lucide-react';
 import { assets } from '../assets/manifest';
 import { localDateKey, uid } from '../lib/dates';
 import { childCount, childIncome, formatMoney, groupIncome, paymentCount, totalIncome } from '../lib/groups';
-import type { Child, Group, IncomeCurrency } from '../types';
+import { shortWeekdayLabels } from '../lib/attendance';
+import type { Child, Group, IncomeCurrency, Weekday } from '../types';
 
 type ChildTarget = { groupId:string };
 type PaymentTarget = { groupId:string; childId:string; childName:string };
 
 export function GroupsPage({groups,currency,onGroups,onCurrency}:{groups:Group[];currency:IncomeCurrency;onGroups:(groups:Group[])=>void;onCurrency:(currency:IncomeCurrency)=>void}) {
-  const [groupOpen,setGroupOpen] = useState(false);
+  const [groupEditor,setGroupEditor] = useState<{group?:Group}|null>(null);
   const [childTarget,setChildTarget] = useState<ChildTarget|null>(null);
   const [paymentTarget,setPaymentTarget] = useState<PaymentTarget|null>(null);
   const income=totalIncome(groups), children=childCount(groups), payments=paymentCount(groups);
 
-  const addGroup=(name:string,description:string)=>{onGroups([...groups,{id:uid(),name,description:description||undefined,children:[],createdAt:Date.now()}]);setGroupOpen(false)};
+  const saveGroup=(draft:{name:string;description?:string;scheduleWeekdays:Weekday[]})=>{const editing=groupEditor?.group;if(editing)onGroups(groups.map(group=>group.id===editing.id?{...group,...draft}:group));else onGroups([...groups,{id:uid(),...draft,children:[],createdAt:Date.now()}]);setGroupEditor(null)};
   const addChild=(draft:Omit<Child,'id'|'payments'|'createdAt'>)=>{if(!childTarget)return;onGroups(groups.map(group=>group.id===childTarget.groupId?{...group,children:[...group.children,{...draft,id:uid(),payments:[],createdAt:Date.now()}]}:group));setChildTarget(null)};
   const addPayment=(amount:number,paidAt:string,note:string)=>{if(!paymentTarget)return;onGroups(groups.map(group=>group.id===paymentTarget.groupId?{...group,children:group.children.map(child=>child.id===paymentTarget.childId?{...child,payments:[...child.payments,{id:uid(),amount,paidAt,note:note||undefined,createdAt:Date.now()}]}:child)}:group));setPaymentTarget(null)};
   const removeGroup=(group:Group)=>{if(window.confirm(`Delete “${group.name}” and all its child records?`))onGroups(groups.filter(item=>item.id!==group.id))};
@@ -32,10 +33,10 @@ export function GroupsPage({groups,currency,onGroups,onCurrency}:{groups:Group[]
       <div className="income-stat"><ReceiptText size={20}/><strong>{payments}</strong><span>{payments===1?'payment':'payments'}</span></div>
     </div>
 
-    <div className="groups-toolbar"><div><small>YOUR CLASSES</small><h2>Groups and children</h2></div><button className="primary" onClick={()=>setGroupOpen(true)}><Plus size={18}/> New group</button></div>
+    <div className="groups-toolbar"><div><small>YOUR CLASSES</small><h2>Groups and children</h2></div><button className="primary" onClick={()=>setGroupEditor({})}><Plus size={18}/> New group</button></div>
 
-    {groups.length===0?<div className="groups-empty panel"><img src={assets.mascots.emptyCalendar} alt=""/><h2>Create your first group</h2><p>Add a class, then build its child list and record payments.</p><button className="primary" onClick={()=>setGroupOpen(true)}><Sparkles size={18}/> Create group</button></div>:<div className="groups-grid">{groups.map(group=><article className="group-card" key={group.id}>
-      <header className="group-card-head"><div className="group-badge"><UsersRound size={24}/></div><div><h2>{group.name}</h2><p>{group.description||`${group.children.length} ${group.children.length===1?'child':'children'}`}</p></div><div className="group-income"><span>Group income</span><strong>{formatMoney(groupIncome(group),currency)}</strong></div><button className="icon small" aria-label={`Delete ${group.name}`} onClick={()=>removeGroup(group)}><Trash2 size={15}/></button></header>
+    {groups.length===0?<div className="groups-empty panel"><img src={assets.mascots.emptyCalendar} alt=""/><h2>Create your first group</h2><p>Add a class, then build its child list and record payments.</p><button className="primary" onClick={()=>setGroupEditor({})}><Sparkles size={18}/> Create group</button></div>:<div className="groups-grid">{groups.map(group=><article className="group-card" key={group.id}>
+      <header className="group-card-head"><div className="group-badge"><UsersRound size={24}/></div><div><h2>{group.name}</h2><p>{group.description||`${group.children.length} ${group.children.length===1?'child':'children'}`}</p><small className="group-schedule">{group.scheduleWeekdays.length?group.scheduleWeekdays.map(day=>shortWeekdayLabels[day]).join(' · '):'Schedule not set'}</small></div><div className="group-income"><span>Group income</span><strong>{formatMoney(groupIncome(group),currency)}</strong></div><div className="group-head-actions"><button className="icon small" aria-label={`Edit ${group.name}`} onClick={()=>setGroupEditor({group})}><Edit3 size={14}/></button><button className="icon small" aria-label={`Delete ${group.name}`} onClick={()=>removeGroup(group)}><Trash2 size={14}/></button></div></header>
       <div className="group-actions"><span>{group.children.length} {group.children.length===1?'child':'children'}</span><button className="secondary compact" onClick={()=>setChildTarget({groupId:group.id})}><UserPlus size={15}/> Add child</button></div>
       {group.children.length===0?<div className="children-empty"><span>☆</span><p>No children yet</p></div>:<div className="children-list">{group.children.map(child=><article className="child-card" key={child.id}>
         <div className="child-main"><span className="child-avatar">{child.name.slice(0,1).toUpperCase()}</span><div className="child-copy"><strong>{child.name}</strong><span>{[child.guardian,child.contact].filter(Boolean).join(' · ')||'Child information'}</span>{child.notes&&<small>{child.notes}</small>}</div><div className="child-paid"><span>Paid</span><strong>{formatMoney(childIncome(child),currency)}</strong></div></div>
@@ -44,15 +45,16 @@ export function GroupsPage({groups,currency,onGroups,onCurrency}:{groups:Group[]
       </article>)}</div>}
     </article>)}</div>}
 
-    {groupOpen&&<GroupModal onClose={()=>setGroupOpen(false)} onSave={addGroup}/>} 
-    {childTarget&&<ChildModal onClose={()=>setChildTarget(null)} onSave={addChild}/>} 
-    {paymentTarget&&<PaymentModal childName={paymentTarget.childName} onClose={()=>setPaymentTarget(null)} onSave={addPayment}/>} 
+    {groupEditor&&<GroupModal group={groupEditor.group} onClose={()=>setGroupEditor(null)} onSave={saveGroup}/>}
+    {childTarget&&<ChildModal onClose={()=>setChildTarget(null)} onSave={addChild}/>}
+    {paymentTarget&&<PaymentModal childName={paymentTarget.childName} onClose={()=>setPaymentTarget(null)} onSave={addPayment}/>}
   </section>;
 }
 
-function GroupModal({onClose,onSave}:{onClose:()=>void;onSave:(name:string,description:string)=>void}) {
-  const [name,setName]=useState(''),[description,setDescription]=useState('');
-  return <div className="modal-backdrop" onMouseDown={onClose}><form className="modal group-form" onMouseDown={event=>event.stopPropagation()} onSubmit={event=>{event.preventDefault();if(name.trim())onSave(name.trim(),description.trim())}}><div className="modal-head"><h2>New group</h2><button type="button" className="icon" onClick={onClose} aria-label="Close"><X size={18}/></button></div><label>Group name<input autoFocus required maxLength={80} value={name} onChange={event=>setName(event.target.value)} placeholder="e.g. Little Stars"/></label><label>Description<input maxLength={160} value={description} onChange={event=>setDescription(event.target.value)} placeholder="Schedule, level, or a short note"/></label><div className="modal-actions"><button type="button" className="secondary" onClick={onClose}>Cancel</button><button className="primary"><Save size={16}/> Create group</button></div></form></div>;
+function GroupModal({group,onClose,onSave}:{group?:Group;onClose:()=>void;onSave:(draft:{name:string;description?:string;scheduleWeekdays:Weekday[]})=>void}) {
+  const [name,setName]=useState(group?.name||''),[description,setDescription]=useState(group?.description||''),[days,setDays]=useState<Weekday[]>(group?.scheduleWeekdays||[]);
+  const toggle=(day:Weekday)=>setDays(current=>current.includes(day)?current.filter(item=>item!==day):[...current,day].sort());
+  return <div className="modal-backdrop" onMouseDown={onClose}><form className="modal group-form" onMouseDown={event=>event.stopPropagation()} onSubmit={event=>{event.preventDefault();if(name.trim()&&days.length)onSave({name:name.trim(),description:description.trim()||undefined,scheduleWeekdays:days})}}><div className="modal-head"><h2>{group?'Edit group':'New group'}</h2><button type="button" className="icon" onClick={onClose} aria-label="Close"><X size={18}/></button></div><label>Group name<input autoFocus required maxLength={80} value={name} onChange={event=>setName(event.target.value)} placeholder="e.g. Little Stars"/></label><label>Description<input maxLength={160} value={description} onChange={event=>setDescription(event.target.value)} placeholder="Level, time, or a short note"/></label><fieldset className="weekday-picker"><legend>Class days</legend><div>{([1,2,3,4,5,6,7] as Weekday[]).map(day=><button key={day} type="button" className={days.includes(day)?'selected':''} onClick={()=>toggle(day)}>{shortWeekdayLabels[day]}</button>)}</div><small>Choose at least one weekly class day.</small></fieldset><div className="modal-actions"><button type="button" className="secondary" onClick={onClose}>Cancel</button><button className="primary" disabled={!name.trim()||days.length===0}><Save size={16}/> {group?'Save group':'Create group'}</button></div></form></div>;
 }
 
 function ChildModal({onClose,onSave}:{onClose:()=>void;onSave:(child:Omit<Child,'id'|'payments'|'createdAt'>)=>void}) {
