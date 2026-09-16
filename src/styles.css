@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&family=Rubik+Bubbles&family=Share+Tech+Mono&display=swap');
 :root{font-family:'Comfortaa','Arial Rounded MT Bold',ui-rounded,system-ui,sans-serif;color:#182f60;background:#f7c4cf;font-synthesis:none;--cream:#fffaf0;--soft:#fff3ed;--pink:#ffadc8;--pink2:#fa4d90;--lilac:#cba7ff;--plum:#51408e;--line:#f16f9e;--muted:#58677e;--shadow:0 5px 0 rgba(217,74,122,.36),0 10px 20px rgba(115,63,101,.18),inset 0 2px 0 rgba(255,255,255,.95);--ease:cubic-bezier(.2,.8,.2,1)}
-html{scroll-behavior:smooth}*{box-sizing:border-box}img{max-width:100%}button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}button:active{transform:translateY(2px)}button:disabled{cursor:not-allowed;opacity:.5}.page{min-height:100vh}.organizer{position:relative}.shell-deco{position:absolute;z-index:0;object-fit:contain;pointer-events:none;user-select:none}.shell-stars{width:130px;right:-25px;top:88px;opacity:.6}.shell-bow{width:110px;left:-31px;bottom:112px;opacity:.36}.organizer>header,.organizer>.app-nav,.organizer>.workspace,.organizer>.groups-page,.organizer>.stats,.organizer>footer{position:relative;z-index:1}
+html{scroll-behavior:smooth}*{box-sizing:border-box}img{max-width:100%}button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}button:active{transform:translateY(2px)}button:disabled{cursor:not-allowed;opacity:.5}.page{min-height:100vh}.organizer{position:relative}.shell-deco{position:absolute;z-index:0;object-fit:contain;pointer-events:none;user-select:none}.shell-stars{width:130px;right:-25px;top:88px;opacity:.6}.shell-bow{width:110px;left:-31px;bottom:112px;opacity:.36}.organizer>header,.organizer>.app-nav,.organizer>.workspace,.organizer>.groups-page,.organizer>.attendance-page,.organizer>.stats,.organizer>footer{position:relative;z-index:1}
 header{display:grid;grid-template-columns:1fr 1.1fr 1fr;align-items:stretch}.brand,.score{display:flex;align-items:center}.lcd{display:grid;place-content:center}.score{justify-content:flex-end;text-align:left}.score>span{display:grid;line-height:1.05}.score .avatar{display:grid;place-items:center;position:relative;flex:none;border:0;background:transparent;box-shadow:none}.score .avatar img{position:absolute;width:68px;height:68px;max-width:none;object-fit:contain}.score .avatar span{position:relative;display:grid;place-items:center;width:31px;height:31px;border-radius:50%;background:linear-gradient(#fff8ef,#ffd3e5);font-family:'Fredoka',sans-serif;font-style:normal;font-weight:700;color:#cf3d7e}.score .score-crystal{object-fit:contain}
 .workspace{display:grid;align-items:start}.panel,.stats{position:relative;min-width:0}.panel-title{display:flex;align-items:center;justify-content:space-between}.panel-title img{object-fit:contain;pointer-events:none}.add,.primary,.secondary,.danger{display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:transform .12s var(--ease),filter .16s var(--ease),box-shadow .12s var(--ease)}.compact{min-height:32px;padding:0 11px;font-size:12px}.filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}.filters::-webkit-scrollbar{display:none}.task-list{max-height:470px;overflow-y:auto;padding-right:3px}.task{display:flex;align-items:center;gap:9px;min-width:0}.task.completed{opacity:.58}.check{display:grid;place-items:center;flex:none;color:white}.task-copy{display:grid;gap:3px;min-width:0;flex:1}.task-copy strong{overflow-wrap:anywhere}.task-copy span{font-size:11px}.completed .task-copy strong{text-decoration:line-through}.task-copy em{font-style:normal}.high{color:#c94d77}.medium{color:#7d59b5}.low{color:#238c70}.icon{display:inline-grid;place-items:center;width:39px;height:39px;flex:none;border-radius:50%;transition:transform .12s var(--ease),filter .16s var(--ease)}.icon.small{width:31px;height:31px}.task details{position:relative}.task summary{display:grid;place-items:center;width:27px;list-style:none;cursor:pointer}.task summary::-webkit-details-marker{display:none}.task details>div{position:absolute;z-index:10;right:0;top:30px;width:146px;padding:5px;border-radius:12px}.task details button{display:flex;align-items:center;gap:6px;width:100%;padding:8px;text-align:left;font-size:12px}.empty{display:flex;min-height:295px;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:5px;padding:20px}.empty img{width:154px;height:154px;object-fit:contain;filter:drop-shadow(0 5px 5px rgba(200,73,127,.18))}.empty b{color:#ef4387}.empty span{font-size:12px}
 .focus-panel{text-align:center}.focus-panel .panel-title{text-align:left}.timer-settings{display:flex;justify-content:center;gap:7px;margin-bottom:8px}.timer-settings label{font-size:10px}.timer-settings input{width:48px;margin-left:3px;border:1px solid #efa8ba;border-radius:7px;padding:3px;background:#fff}.timer-shell{position:relative;width:min(100%,350px);aspect-ratio:1;margin:8px auto 13px;border-radius:50%}.timer-shell:before{content:"";position:absolute;border-radius:50%}.timer-ornaments{position:absolute;z-index:3;inset:-17%;width:134%;height:134%;max-width:none;object-fit:contain;pointer-events:none}.timer-crown{position:absolute;z-index:4;object-fit:contain;pointer-events:none}.timer{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:50%;padding:30px;overflow:hidden}.timer img{width:34px;height:34px;object-fit:contain}.timer span{max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px}.timer-shell.running{animation:softPulse 2s ease-in-out infinite}.task-picker{width:100%}.presets,.timer-actions{display:flex;align-items:center;justify-content:center}.right-rail{display:grid;align-content:start;gap:17px}.profile{overflow:hidden}.name{display:flex;align-items:baseline;gap:5px}.name input{min-width:0;width:150px;border:0;background:transparent}.profile p{margin:13px 0 7px;font-size:12px}.moods{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.moods button{display:grid;place-items:center;align-content:center;min-width:0;padding:2px;transition:transform .15s var(--ease)}.moods button:hover{transform:translateY(-2px)}.moods button img{width:100%;height:auto;aspect-ratio:1;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(175,60,111,.2))}.moods button small{font-size:8px;line-height:1;margin-top:-1px;white-space:nowrap}.thought{display:grid;gap:4px;margin-top:13px;font-size:11px}.thought textarea{width:100%;min-height:76px;max-height:150px;resize:vertical}.saved{display:flex;align-items:center;gap:4px;margin-top:5px;font-size:10px}
@@ -589,4 +589,180 @@ body, button, input, textarea, select {
   .attendance-table th:first-child { min-width: 132px; }
   .report-head h2 { font-size: 16px; }
   .report-list article { grid-template-columns: 34px 1fr 46px; gap: 7px; padding: 9px; }
+}
+
+/* Phone-first finishing pass: native iPhone sizing and 44px touch targets. */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+@media (max-width: 430px) {
+  body { min-width: 0; font-size: 15px; }
+  button, input, textarea, select { font-size: 16px; }
+  button, select { touch-action: manipulation; }
+  .shell-deco { display: none; }
+  .organizer { padding: max(10px, env(safe-area-inset-top)) 10px max(18px, env(safe-area-inset-bottom)); overflow: clip; }
+
+  header { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+  .brand, .lcd { min-width: 0; min-height: 68px; }
+  .brand { gap: 3px; padding: 5px 7px; font-size: 15px; }
+  .brand b { font-size: 21px; }
+  .brand img { width: 45px; height: 45px; flex: none; }
+  .header-time span { font-size: 10px; }
+  .header-time strong { font-size: clamp(21px, 7vw, 27px); }
+  .score { grid-column: 1 / -1; justify-content: center; min-height: 50px; padding: 4px 10px; }
+  .score .score-crystal { width: 38px; height: 38px; }
+  .score .avatar { margin-left: auto; }
+  .score .avatar img { width: 54px; height: 54px; }
+  .score .avatar span { width: 29px; height: 29px; font-size: 13px; }
+  .score small { font-size: 10px; }
+  .score b { font-size: 22px; }
+
+  .app-nav { position: sticky!important; z-index: 12!important; top: max(4px, env(safe-area-inset-top)); gap: 3px; margin: 0 auto 14px; padding: 4px; border-radius: 20px; backdrop-filter: blur(12px); }
+  .app-nav button { min-height: 44px; gap: 4px; padding: 6px 4px; font-size: 11px; line-height: 1.15; white-space: nowrap; }
+  .app-nav button svg { width: 16px; height: 16px; flex: none; }
+
+  .workspace { width: 100%; gap: 14px; }
+  .panel, .stats { width: 100%; min-width: 0; }
+  .panel { padding: 15px; }
+  .panel-title span { font-size: 17px; }
+  .icon, .icon.small { width: 44px; height: 44px; }
+  .compact { min-height: 44px; padding-inline: 14px; font-size: 13px; }
+
+  .focus-panel { padding: 25px 13px 16px; border-radius: 46px 46px 25px 25px; }
+  .focus-panel>.panel-title { top: 12px; right: 12px; }
+  .focus-panel .timer-shell { width: min(72vw, 274px); margin: 17px auto 16px; }
+  .focus-panel .timer { inset: 25px; padding: 16px; }
+  .focus-panel .timer img { width: 29px; height: 29px; }
+  .focus-panel .timer small { font-size: 12px; }
+  .focus-panel .timer strong { font-size: clamp(50px, 15vw, 62px); letter-spacing: -4px; }
+  .focus-panel .timer span { max-width: 175px; font-size: 11px; }
+  .focus-panel .task-picker { min-height: 48px; margin-top: 8px; padding-inline: 14px; }
+  .presets { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; }
+  .presets button { min-height: 44px; padding: 6px; font-size: 13px; }
+  .focus-panel .timer-actions { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 48px; }
+  .focus-panel .timer-actions .primary, .focus-panel .timer-actions .secondary, .focus-panel .timer-actions .icon { min-height: 48px; font-size: 14px; }
+  .timer-settings { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .timer-settings label { display: grid; gap: 3px; font-size: 10px; }
+  .timer-settings input { width: 100%; min-height: 40px; margin: 0; font-size: 16px; text-align: center; }
+
+  .todo { border-radius: 24px; }
+  .todo::after { top: 112px; }
+  .todo .panel-title { margin-inline: 4px; }
+  .add { width: 100%; min-height: 48px; font-size: 15px; }
+  .filters { gap: 8px; padding-bottom: 12px; }
+  .filters button { min-height: 46px; padding: 7px 5px; font-size: 12px; line-height: 1.15; }
+  .task { min-height: 66px; }
+  .task-copy strong { font-size: 15px; }
+  .task-copy span { font-size: 12px; }
+  .todo .task-list { padding-right: 6px; }
+  .todo .empty { min-height: 230px; }
+  .todo .empty b { font-size: 18px; }
+  .todo .empty span { max-width: 250px; font-size: 13px; line-height: 1.45; }
+
+  .calendar { padding: 14px 11px; }
+  .calendar-head { min-height: 44px; font-size: 16px; }
+  .calendar-head button { min-width: 44px; min-height: 44px; }
+  .calendar .week { font-size: 11px; }
+  .calendar .grid { gap: 4px 1px; }
+  .calendar .grid button { width: 40px; height: 40px; min-height: 40px; font-size: 13px; }
+  .calendar .day-detail { margin-top: 12px; padding-top: 12px; }
+  .day-detail>b, .calendar-empty, .day-task { font-size: 12px; }
+
+  .stats { grid-template-columns: 1fr; padding: 16px; }
+  .stats>img { position: absolute; right: 8px; top: 8px; width: 72px; height: 72px; }
+  .efficiency { max-width: calc(100% - 66px); }
+  .efficiency small { font-size: 11px; }
+  .efficiency strong { font-size: 32px; }
+  .efficiency span { font-size: 12px; }
+  .numbers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .numbers>div { min-height: 54px; padding-left: 7px; }
+  .numbers b { font-size: 17px; }
+  .numbers span { font-size: 10px; }
+  footer { align-items: center; padding-top: 16px; font-size: 10px; }
+  footer>span { max-width: 68%; }
+  footer .danger { min-height: 44px; }
+
+  .groups-page, .attendance-page { width: 100%; min-width: 0; }
+  .groups-hero { grid-template-columns: 50px minmax(0, 1fr); }
+  .groups-intro h1, .attendance-toolbar h1 { font-size: 21px; }
+  .currency-picker { font-size: 11px; }
+  .currency-picker select, .attendance-toolbar select { min-height: 48px; font-size: 16px; }
+  .income-total { min-height: 72px; }
+  .income-total span, .income-stat span { font-size: 10px; }
+  .income-total strong { font-size: 20px; }
+  .groups-toolbar { align-items: center; padding-inline: 2px; }
+  .groups-toolbar p { display: none; }
+  .groups-toolbar .primary { min-height: 46px; font-size: 13px; }
+  .group-card { padding: 14px 12px; }
+  .group-card-head { grid-template-columns: 44px minmax(0, 1fr) auto; gap: 8px; }
+  .group-card-head h2 { font-size: 18px; }
+  .group-card-head p { font-size: 11px; }
+  .group-schedule { font-size: 10px; }
+  .group-head-actions { grid-column: 3; grid-row: 1; }
+  .group-head-actions .icon { width: 42px; height: 42px; }
+  .group-income { grid-column: 2 / -1; justify-items: start; }
+  .group-income span, .child-paid span { font-size: 10px; }
+  .group-income strong { font-size: 16px; }
+  .group-actions { min-height: 54px; font-size: 12px; }
+  .group-actions .secondary { min-height: 44px; }
+  .child-card { padding: 12px 10px; }
+  .child-main { grid-template-columns: 40px minmax(0, 1fr); }
+  .child-copy strong { font-size: 14px; }
+  .child-copy span, .child-copy small { font-size: 10px; }
+  .child-actions { display: grid; grid-template-columns: 1fr auto; }
+  .child-actions .secondary { min-height: 44px; }
+  .payment-history summary { min-height: 44px; padding-block: 12px; font-size: 11px; }
+  .payment-row { grid-template-columns: minmax(0, 1fr) auto 36px; min-height: 48px; }
+  .payment-row b, .payment-row strong { font-size: 11px; }
+  .payment-row small { font-size: 9px; }
+  .payment-row button { width: 36px; height: 36px; }
+  .weekday-picker button { min-height: 44px; font-size: 11px; }
+
+  .attendance-toolbar { gap: 12px; padding: 15px 13px; }
+  .attendance-toolbar p { font-size: 12px; }
+  .attendance-toolbar>label { font-size: 11px; }
+  .month-switcher { grid-template-columns: 48px 1fr 48px; min-height: 48px; }
+  .month-switcher strong { font-size: 13px; }
+  .attendance-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .attendance-summary>div { min-height: 78px; }
+  .attendance-summary>div>strong { font-size: 22px; }
+  .attendance-summary>div>span { font-size: 10px; line-height: 1.25; }
+  .attendance-summary .attendance-group { grid-template-columns: 58px minmax(0, 1fr); min-height: 76px; }
+  .attendance-group img { width: 54px; height: 54px; }
+  .attendance-group strong { font-size: 16px; }
+  .attendance-group small, .attendance-group em { font-size: 9px; }
+  .register-heading, .report-head { align-items: center; }
+  .register-heading h2, .report-head h2 { font-size: 17px; }
+  .register-heading>span { display: none; }
+  .attendance-table-wrap { margin-inline: -13px; padding: 0 13px 8px; overscroll-behavior-inline: contain; }
+  .attendance-table { border-spacing: 4px; }
+  .attendance-table th, .attendance-table td { min-width: 48px; height: 52px; }
+  .attendance-table th:first-child { min-width: 138px; }
+  .attendance-table tbody th>span:last-child { font-size: 12px; }
+  .attendance-table tbody th small { font-size: 9px; }
+  .attendance-check span { width: 42px; height: 42px; border-radius: 12px; }
+  .report-rate span { font-size: 10px; }
+  .report-rate strong { font-size: 24px; }
+  .report-list article { grid-template-columns: 36px minmax(0, 1fr) 48px; }
+  .report-list article>div strong { font-size: 13px; }
+  .report-list article>div span, .report-list article>p { font-size: 10px; }
+  .attendance-empty { min-height: 320px; padding: 24px 16px; }
+
+  .modal-backdrop { padding-top: max(12px, env(safe-area-inset-top)); }
+  .modal { gap: 14px; }
+  .modal h2 { font-size: 21px; }
+  .modal label, .weekday-picker legend { font-size: 13px; }
+  .modal input, .modal textarea, .modal select { min-height: 48px; padding: 11px 12px; font-size: 16px; }
+  .modal textarea { min-height: 96px; }
+  .modal-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .modal-actions button { min-height: 48px; }
+}
+
+@media (max-width: 355px) {
+  .app-nav button { font-size: 10px; }
+  .app-nav button svg { display: none; }
+  .brand { font-size: 13px; }
+  .brand b { font-size: 19px; }
+  .focus-panel .timer-shell { width: min(76vw, 248px); }
+  .focus-panel .timer strong { font-size: 48px; }
+  .calendar .grid button { width: 36px; height: 36px; min-height: 36px; }
+  .filters button { font-size: 11px; }
 }
