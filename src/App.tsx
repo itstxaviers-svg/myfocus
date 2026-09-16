@@ -82,7 +82,7 @@ export function App() {
     <Stats state={state} completed={completeCount} total={todayCount} focus={focusMin} points={dailyPts}/></>:page==='groups'?
     <GroupsPage groups={state.groups} currency={state.incomeCurrency} onGroups={groups=>update(current=>{const ids=new Set(groups.map(group=>group.id));return {...current,groups,attendance:Object.fromEntries(Object.entries(current.attendance).filter(([id])=>ids.has(id)))}})} onCurrency={incomeCurrency=>update(current=>({...current,incomeCurrency}))}/>:
     <AttendancePage groups={state.groups} attendance={state.attendance} onAttendance={attendance=>update(current=>({...current,attendance}))} onEditGroups={()=>navigate('groups')}/>}
-    <footer><span><Star size={14}/> Local demo mode · everything stays on this device</span><button className="danger compact" onClick={()=>setResetOpen(true)}><RotateCcw size={15}/> Reset</button></footer>
+    {page==='focus'&&<footer><span><Star size={14}/> Local demo mode · everything stays on this device</span><button className="danger compact" onClick={()=>setResetOpen(true)}><RotateCcw size={15}/> Reset</button></footer>}
   </div>{editor&&<TaskEditor task={editor} onClose={()=>setEditor(null)} onSave={editor.id?editTask:addTask}/>} {resetOpen&&<ConfirmReset onClose={()=>setResetOpen(false)} onReset={()=>{resetStorage();setState(defaults());setResetOpen(false);setToast({text:'Demo data reset'});}}/>} {toast&&<div className={`toast ${toast.kind||''}`} role="status">{toast.kind==='celebrate'&&<img src={assets.mascots.threeTasks} alt=""/>}<span>{toast.text}</span><button aria-label="Close" onClick={()=>setToast(null)}><X size={16}/></button></div>}</main>;
 }
 
