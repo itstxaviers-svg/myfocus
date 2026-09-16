@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Group } from '../types';
-import { childCount, childIncome, groupIncome, paymentCount, totalIncome } from './groups';
+import { childCount, childIncome, formatMoney, groupIncome, paymentCount, totalIncome } from './groups';
 
 const groups: Group[] = [{
   id:'g1', name:'Stars', scheduleWeekdays:[1,3], createdAt:0,
@@ -14,4 +14,5 @@ describe('group income', () => {
   it('sums a child payment history', () => expect(childIncome(groups[0].children[0])).toBe(2000));
   it('sums a group and all groups', () => { expect(groupIncome(groups[0])).toBe(3500); expect(totalIncome(groups)).toBe(3500); });
   it('counts children and payments', () => { expect(childCount(groups)).toBe(2); expect(paymentCount(groups)).toBe(3); });
+  it('puts the ruble sign after whole amounts', () => expect(formatMoney(0,'RUB').replace(/\u00a0/g,' ')).toBe('0 ₽'));
 });

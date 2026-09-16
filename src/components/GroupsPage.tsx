@@ -29,9 +29,9 @@ export function GroupsPage({groups,currency,onGroups,onCurrency}:{groups:Group[]
       <label className="currency-picker"><span>Currency</span><select value={currency} onChange={event=>onCurrency(event.target.value as IncomeCurrency)}><option value="RUB">RUB · ₽</option><option value="USD">USD · $</option><option value="EUR">EUR · €</option><option value="GBP">GBP · £</option></select></label>
       <div className="income-total"><Coins size={24}/><span>Total income</span><strong>{formatMoney(income,currency)}</strong></div>
       <div className="income-stats">
-        <div className="income-stat"><UsersRound size={20}/><strong>{groups.length}</strong><span>{groups.length===1?'group':'groups'}</span></div>
-        <div className="income-stat"><UserPlus size={20}/><strong>{children}</strong><span>{children===1?'child':'children'}</span></div>
-        <div className="income-stat"><ReceiptText size={20}/><strong>{payments}</strong><span>{payments===1?'payment':'payments'}</span></div>
+        <div className="income-stat"><UsersRound size={20}/><strong>{groups.length}</strong><span>Groups</span></div>
+        <div className="income-stat"><UserPlus size={20}/><strong>{children}</strong><span>Children</span></div>
+        <div className="income-stat"><ReceiptText size={20}/><strong>{payments}</strong><span>Payments</span></div>
       </div>
     </div>
 
