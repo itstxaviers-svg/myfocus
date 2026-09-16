@@ -459,6 +459,9 @@ body, button, input, textarea, select {
 .payment-row strong { color: #248467; font-size: 11px; }
 .payment-row button { display: grid; place-items: center; color: #d94b7c; }
 .payment-form .modal-head p { margin: 2px 0 0; color: #6a758c; font-size: 11px; }
+.compact-data-form { align-content: start; }
+.compact-data-form input[readonly] { color: #31466f; background: #f8edf0; }
+.compact-data-form textarea { min-height: 72px; }
 .weekday-picker { margin: 0; padding: 10px; border: 2px solid #efbdc4; border-radius: 13px; }
 .weekday-picker legend { padding: 0 5px; font-size: 12px; }
 .weekday-picker>div { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; }
