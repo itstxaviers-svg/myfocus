@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Coins, Edit3, Plus, ReceiptText, Save, Sparkles, Trash2, UserPlus, UsersRound, WalletCards, X } from 'lucide-react';
+import { Coins, Edit3, Plus, ReceiptText, Save, Trash2, UserPlus, UsersRound, WalletCards, X } from 'lucide-react';
 import { assets } from '../assets/manifest';
 import { localDateKey, uid } from '../lib/dates';
 import { childCount, childIncome, formatMoney, groupIncome, paymentCount, totalIncome } from '../lib/groups';
@@ -37,7 +37,7 @@ export function GroupsPage({groups,currency,onGroups,onCurrency}:{groups:Group[]
 
     <div className="groups-toolbar"><div><small>YOUR CLASSES</small><h2>Groups and children</h2></div><button className="primary" onClick={()=>setGroupEditor({})}><Plus size={18}/> New group</button></div>
 
-    {groups.length===0?<div className="groups-empty panel"><img src={assets.mascots.emptyCalendar} alt=""/><h2>Create your first group</h2><p>Add a class, then build its child list and record payments.</p><button className="primary" onClick={()=>setGroupEditor({})}><Sparkles size={18}/> Create group</button></div>:<div className="groups-grid">{groups.map(group=><article className="group-card" key={group.id}>
+    {groups.length===0?<div className="groups-empty panel"><img src={assets.mascots.emptyCalendar} alt=""/><h2>Create your first group</h2><p>Use the New group button above to add a class, then build its child list and record payments.</p></div>:<div className="groups-grid">{groups.map(group=><article className="group-card" key={group.id}>
       <header className="group-card-head"><div className="group-badge"><UsersRound size={24}/></div><div><h2>{group.name}</h2><p>{group.description||`${group.children.length} ${group.children.length===1?'child':'children'}`}</p><small className="group-schedule">{group.scheduleWeekdays.length?group.scheduleWeekdays.map(day=>shortWeekdayLabels[day]).join(' · '):'Schedule not set'}</small></div><div className="group-income"><span>Group income</span><strong>{formatMoney(groupIncome(group),currency)}</strong></div><div className="group-head-actions"><button className="icon small" aria-label={`Edit ${group.name}`} onClick={()=>setGroupEditor({group})}><Edit3 size={14}/></button><button className="icon small" aria-label={`Delete ${group.name}`} onClick={()=>removeGroup(group)}><Trash2 size={14}/></button></div></header>
       <div className="group-actions"><span>{group.children.length} {group.children.length===1?'child':'children'}</span><button className="secondary compact" onClick={()=>setChildTarget({groupId:group.id})}><UserPlus size={15}/> Add child</button></div>
       {group.children.length===0?<div className="children-empty"><span>☆</span><p>No children yet</p></div>:<div className="children-list">{group.children.map(child=><article className="child-card" key={child.id}>
