@@ -5,6 +5,11 @@ export const groupIncome = (group: Group) => group.children.reduce((sum, child) 
 export const totalIncome = (groups: Group[]) => groups.reduce((sum, group) => sum + groupIncome(group), 0);
 export const paymentCount = (groups: Group[]) => groups.reduce((sum, group) => sum + group.children.reduce((childSum, child) => childSum + child.payments.length, 0), 0);
 export const childCount = (groups: Group[]) => groups.reduce((sum, group) => sum + group.children.length, 0);
+export const childPaymentsForMonth = (child: Child, monthKey: string) => child.payments.filter(payment => payment.paidAt.startsWith(`${monthKey}-`));
+export const childIncomeForMonth = (child: Child, monthKey: string) => childPaymentsForMonth(child, monthKey).reduce((sum, payment) => sum + payment.amount, 0);
+export const groupIncomeForMonth = (group: Group, monthKey: string) => group.children.reduce((sum, child) => sum + childIncomeForMonth(child, monthKey), 0);
+export const totalIncomeForMonth = (groups: Group[], monthKey: string) => groups.reduce((sum, group) => sum + groupIncomeForMonth(group, monthKey), 0);
+export const paymentCountForMonth = (groups: Group[], monthKey: string) => groups.reduce((sum, group) => sum + group.children.reduce((childSum, child) => childSum + childPaymentsForMonth(child, monthKey).length, 0), 0);
 export const formatMoney = (amount: number, currency: IncomeCurrency) => new Intl.NumberFormat(currency==='RUB'?'ru-RU':'en-US', {
   style:'currency',
   currency,
