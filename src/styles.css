@@ -528,9 +528,10 @@ body, button, input, textarea, select {
 .attendance-table thead th { color: #24426f; font-size: 9px; }
 .attendance-table thead th>span,.attendance-table thead th>strong { display: block; }
 .attendance-table thead th>strong { font-size: 13px; }
-.attendance-table th:first-child { position: sticky; z-index: 2; left: 0; min-width: 160px; background: #fffaf2; box-shadow: 5px 0 8px rgba(106,56,84,.07); text-align: left; }
-.attendance-table tbody th { display: flex; align-items: center; gap: 8px; }
-.attendance-table tbody th>span:last-child { display: grid; overflow: hidden; color: #254270; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.attendance-table th:first-child { position: sticky; z-index: 3; left: 0; min-width: 160px; background: #fffaf2; box-shadow: 7px 0 10px rgba(106,56,84,.12); text-align: left; }
+.attendance-table thead th:first-child { z-index: 4; }
+.attendance-name { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.attendance-name>span:last-child { display: grid; min-width: 0; overflow: hidden; color: #254270; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
 .attendance-table tbody th small { color: #7b8496; font-size: 8px; font-weight: 400; }
 .attendance-table .future { opacity: .42; }
 .attendance-avatar { display: grid!important; place-items: center; flex: none; width: 31px; height: 31px; border: 2px solid #ef88aa; border-radius: 50%; background: linear-gradient(#ffdbea,#dacbff); color: #764d8a!important; font-size: 11px!important; font-weight: 700; }
@@ -766,7 +767,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .attendance-table { border-spacing: 4px; }
   .attendance-table th, .attendance-table td { min-width: 48px; height: 52px; }
   .attendance-table th:first-child { min-width: 138px; }
-  .attendance-table tbody th>span:last-child { font-size: 12px; }
+  .attendance-name>span:last-child { font-size: 12px; }
   .attendance-table tbody th small { font-size: 9px; }
   .attendance-check span { width: 42px; height: 42px; border-radius: 12px; }
   .report-rate span { font-size: 10px; }
@@ -826,6 +827,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* Monthly payment controls and app-like mobile windows. */
 body:has(.modal-backdrop) { overflow: hidden; }
 .organizer>.groups-page:has(.modal-backdrop) { z-index: 21; }
+.organizer>.attendance-page:has(.modal-backdrop) { z-index: 21; }
 .child-form label small { margin-left: 4px; color: #d5417b; font-size: .85em; font-weight: 700; }
 .groups-month { min-width: 230px; }
 .groups-hero>.income-total { grid-column: 1 / 3; }
