@@ -643,7 +643,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .score small { font-size: 10px; }
   .score b { font-size: 22px; }
 
-  .app-nav { position: sticky!important; z-index: 12!important; top: max(4px, env(safe-area-inset-top)); gap: 3px; margin: 0 auto 14px; padding: 4px; border-radius: 20px; backdrop-filter: blur(12px); }
+  .app-nav { position: relative!important; z-index: 1!important; top: auto; gap: 3px; margin: 0 auto 14px; padding: 4px; border-radius: 20px; backdrop-filter: none; }
   .app-nav button { min-height: 44px; gap: 4px; padding: 6px 4px; font-size: 11px; line-height: 1.15; white-space: nowrap; }
   .app-nav button svg { width: 16px; height: 16px; flex: none; }
 
