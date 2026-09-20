@@ -1,4 +1,4 @@
-import type { PeriodTracking } from '../types';
+import type { PeriodMarker,PeriodTracking } from '../types';
 import { dateFromKey, localDateKey } from './dates';
 
 export const addDaysKey = (key:string,days:number) => {
@@ -31,4 +31,11 @@ export const nextPredictedStart = (tracking:PeriodTracking,from=localDateKey()) 
   let next=addDaysKey(last,cycle);
   while(next<from)next=addDaysKey(next,cycle);
   return next;
+};
+
+export const nextMarkerDate = (marker:PeriodMarker,from=localDateKey()) => {
+  if(marker.completedAt&&!marker.repeatDays)return undefined;
+  let date=marker.date;
+  if(marker.repeatDays)while(date<from)date=addDaysKey(date,marker.repeatDays);
+  return date;
 };

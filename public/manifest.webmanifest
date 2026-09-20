@@ -2,7 +2,7 @@
   "name": "Focus Tool",
   "short_name": "Focus Tool",
   "id": "/myfocus/",
-  "description": "A magical focus timer, group organizer, payment tracker, and attendance register.",
+  "description": "A private mobile organizer for focus, groups, payments, attendance, cycle tracking, and reminders.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

@@ -7,12 +7,13 @@ export interface PointEvent { id:string; type:'task_completed'|'focus_completed'
 export interface ActiveTimer { mode:Mode; status:'idle'|'running'|'paused'; taskId?:string; plannedSeconds:number; remainingSeconds:number; startedAt?:number; endsAt?:number }
 export type IncomeCurrency = 'USD' | 'EUR' | 'GBP' | 'RUB';
 export type Weekday = 1 | 2 | 3 | 4 | 5 | 6 | 7;
-export interface Payment { id:string; amount:number; paidAt:string; note?:string; createdAt:number }
+export interface Payment { id:string; amount:number; paidAt:string; currency:IncomeCurrency; note?:string; createdAt:number; updatedAt?:number }
 export interface Child { id:string; name:string; guardian?:string; contact?:string; notes?:string; payments:Payment[]; createdAt:number }
 export interface Group { id:string; name:string; description?:string; scheduleWeekdays:Weekday[]; children:Child[]; createdAt:number }
 export type AttendanceLedger = Record<string,Record<string,string[]>>;
 export interface PeriodDay { note?:string; updatedAt:number }
-export interface PeriodMarker { id:string; title:string; date:string; note?:string; remindDaysBefore:number; createdAt:number }
-export interface PeriodTracking { days:Record<string,PeriodDay>; markers:PeriodMarker[]; settings:{predictionEnabled:boolean;averageCycleDays:number;averagePeriodDays:number;periodReminderDaysBefore:number} }
-export interface NotificationSettings { enabled:boolean; delivered:string[]; dismissed:string[] }
-export interface FocusToolState { schemaVersion:1; profile:{name:string}; checkIns:Record<string,{date:string;mood?:Mood;thought:string;updatedAt:number}>; tasks:Task[]; focusSessions:FocusSession[]; pointEvents:PointEvent[]; milestones:Record<string,{threeTasksCelebrated?:boolean;lastEncouragement?:number}>; activeTimer:ActiveTimer; focusSettings:{focusMinutes:number;shortBreakMinutes:number;longBreakMinutes:number;sessionsBeforeLongBreak:number;dailyFocusGoalMinutes:number;soundEnabled:boolean}; completedFocusCountSinceLongBreak:number; groups:Group[]; incomeCurrency:IncomeCurrency; attendance:AttendanceLedger; periodTracking:PeriodTracking; notifications:NotificationSettings }
+export interface PeriodMarker { id:string; title:string; date:string; time:string; note?:string; reminderMinutesBefore:number[]; repeatDays?:number; completedAt?:number; lastCompletedAt?:number; createdAt:number }
+export interface PeriodTracking { days:Record<string,PeriodDay>; markers:PeriodMarker[]; settings:{predictionEnabled:boolean;averageCycleDays:number;averagePeriodDays:number;periodReminderDaysBefore:number;periodReminderTime:string} }
+export interface NotificationSettings { enabled:boolean; privateMode:boolean; delivered:string[]; dismissed:string[] }
+export interface PrivacySettings { pinHash?:string; autoLockMinutes:number; lastBackupAt?:number }
+export interface FocusToolState { schemaVersion:2; profile:{name:string}; checkIns:Record<string,{date:string;mood?:Mood;thought:string;updatedAt:number}>; tasks:Task[]; focusSessions:FocusSession[]; pointEvents:PointEvent[]; milestones:Record<string,{threeTasksCelebrated?:boolean;lastEncouragement?:number}>; activeTimer:ActiveTimer; focusSettings:{focusMinutes:number;shortBreakMinutes:number;longBreakMinutes:number;sessionsBeforeLongBreak:number;dailyFocusGoalMinutes:number;soundEnabled:boolean}; completedFocusCountSinceLongBreak:number; groups:Group[]; incomeCurrency:IncomeCurrency; attendance:AttendanceLedger; periodTracking:PeriodTracking; notifications:NotificationSettings; privacy:PrivacySettings }

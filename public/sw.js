@@ -1,8 +1,22 @@
-self.addEventListener('notificationclick',event=>{
-  event.notification.close();
-  event.waitUntil(clients.matchAll({type:'window',includeUncontrolled:true}).then(windows=>{
-    const existing=windows[0];
-    if(existing)return existing.focus();
-    return clients.openWindow('./');
-  }));
-});
+const VERSION='focus-tool-v2';
+const APP_CACHE=`${VERSION}-app`;
+const REMINDER_URL=new URL('__reminder-schedule__',self.registration.scope).toString();
+const timers=new Map();
+const privateText={title:'Focus Tool reminder',body:'Open Focus Tool to view your personal reminder.'};
+const notificationOptions=(item,privateMode)=>({body:privateMode?privateText.body:item.body,icon:new URL('icons/focus-tool-192.png',self.registration.scope).toString(),badge:new URL('icons/favicon-32.png',self.registration.scope).toString(),tag:item.id,data:{url:new URL('./',self.registration.scope).toString()}});
+
+async function showReminder(item,privateMode){const windows=await clients.matchAll({type:'window',includeUncontrolled:true});if(windows.some(client=>client.visibilityState==='visible'))return false;await self.registration.showNotification(privateMode?privateText.title:item.title,notificationOptions(item,privateMode));return true}
+async function saveSchedule(payload){const cache=await caches.open(APP_CACHE);await cache.put(REMINDER_URL,new Response(JSON.stringify(payload),{headers:{'Content-Type':'application/json'}}))}
+async function loadSchedule(){const cache=await caches.open(APP_CACHE),response=await cache.match(REMINDER_URL);return response?response.json():{items:[],privateMode:true}}
+function armSchedule(payload){for(const timer of timers.values())clearTimeout(timer);timers.clear();const now=Date.now();for(const item of payload.items||[]){const delay=item.remindAt-now;if(delay>=0&&delay<=2_147_000_000)timers.set(item.id,setTimeout(async()=>{if(await showReminder(item,payload.privateMode)){item.workerDelivered=true;await saveSchedule(payload)}},delay))}}
+let checking=null;
+async function checkSchedule(){if(checking)return checking;checking=(async()=>{const payload=await loadSchedule(),now=Date.now(),due=(payload.items||[]).filter(item=>item.remindAt<=now&&now<=item.dueAt+86_400_000&&!item.workerDelivered);for(const item of due)if(await showReminder(item,payload.privateMode))item.workerDelivered=true;await saveSchedule(payload);armSchedule(payload)})();try{return await checking}finally{checking=null}}
+
+self.addEventListener('install',event=>event.waitUntil(caches.open(APP_CACHE).then(cache=>cache.addAll(['./','manifest.webmanifest','icons/focus-tool-192.png','icons/focus-tool-512.png','icons/apple-touch-icon.png'])).then(()=>self.skipWaiting())));
+self.addEventListener('activate',event=>event.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('focus-tool-')&&key!==APP_CACHE).map(key=>caches.delete(key)))),self.clients.claim(),checkSchedule()])));
+self.addEventListener('fetch',event=>{if(event.request.method!=='GET'||new URL(event.request.url).origin!==self.location.origin)return;if(event.request.mode==='navigate')event.respondWith(fetch(event.request).then(response=>{const copy=response.clone();caches.open(APP_CACHE).then(cache=>cache.put('./',copy));return response}).catch(()=>caches.match('./')));else event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request).then(response=>{if(response.ok)caches.open(APP_CACHE).then(cache=>cache.put(event.request,response.clone()));return response})));event.waitUntil(checkSchedule())});
+self.addEventListener('message',event=>{if(event.data?.type==='SCHEDULE_REMINDERS'){const payload={items:event.data.items||[],privateMode:Boolean(event.data.privateMode)};event.waitUntil(saveSchedule(payload).then(()=>armSchedule(payload)))}});
+self.addEventListener('sync',event=>{if(event.tag==='focus-tool-reminders')event.waitUntil(checkSchedule())});
+self.addEventListener('periodicsync',event=>{if(event.tag==='focus-tool-reminders')event.waitUntil(checkSchedule())});
+self.addEventListener('push',event=>{let payload={};try{payload=event.data?.json()||{}}catch{payload={title:'Focus Tool reminder',body:event.data?.text()||''}}const privateMode=Boolean(payload.privateMode);event.waitUntil(self.registration.showNotification(privateMode?privateText.title:(payload.title||'Focus Tool'),{body:privateMode?privateText.body:(payload.body||'You have a reminder.'),icon:new URL('icons/focus-tool-192.png',self.registration.scope).toString(),badge:new URL('icons/favicon-32.png',self.registration.scope).toString(),tag:payload.tag||'focus-tool-push',data:{url:payload.url||new URL('./',self.registration.scope).toString()}}))});
+self.addEventListener('notificationclick',event=>{event.notification.close();const target=event.notification.data?.url||new URL('./',self.registration.scope).toString();event.waitUntil(clients.matchAll({type:'window',includeUncontrolled:true}).then(windows=>{const existing=windows[0];if(existing){existing.navigate?.(target);return existing.focus()}return clients.openWindow(target)}))});
