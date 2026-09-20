@@ -1,6 +1,7 @@
 {
   "name": "Focus Tool",
   "short_name": "Focus Tool",
+  "id": "/myfocus/",
   "description": "A magical focus timer, group organizer, payment tracker, and attendance register.",
   "start_url": "./",
   "scope": "./",
