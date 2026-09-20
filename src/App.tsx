@@ -14,6 +14,7 @@ import { DataPrivacyModal,LockScreen } from './components/DataPrivacyModal';
 import { buildReminders,isReminderDue,visibleReminders } from './lib/reminders';
 import { notificationPermission,requestSystemNotificationPermission,showSystemNotification,syncReminderSchedule } from './lib/systemNotifications';
 import { useDialogFocusManager } from './lib/a11y';
+import { toggleAttendancePresence } from './lib/attendance';
 
 type Toast = { text:string; kind?:'celebrate'|'plain' } | null;
 type AppPage = 'focus'|'groups'|'attendance'|'periods';
@@ -99,7 +100,7 @@ export function App() {
   const progress=timer.plannedSeconds?Math.min(100,Math.max(0,(1-remaining/timer.plannedSeconds)*100)):0;
   const todayCount=todayTasks(state,today).length, completeCount=completedToday(state,today).length, focusMin=focusMinutesToday(state,today), dailyPts=pointsToday(state,today);
   const navigate=useCallback((next:AppPage)=>{setPage(next);window.location.hash=next==='focus'?'':next},[]);
-  const updateAttendance=useCallback((attendance:FocusToolState['attendance'])=>update(current=>({...current,attendance})),[update]);
+  const toggleAttendance=useCallback((groupId:string,date:string,childId:string)=>update(current=>({...current,attendance:toggleAttendancePresence(current.attendance,groupId,date,childId)})),[update]);
   const editAttendanceGroups=useCallback(()=>navigate('groups'),[navigate]);
   if(state.privacy.pinHash&&!unlocked)return <LockScreen pinHash={state.privacy.pinHash} onUnlock={()=>setUnlocked(true)}/>;
   return <main className="page"><div className="organizer">
@@ -114,7 +115,7 @@ export function App() {
     </section>
     <Stats state={state} completed={completeCount} total={todayCount} focus={focusMin} points={dailyPts}/></>:page==='groups'?
     <GroupsPage groups={state.groups} currency={state.incomeCurrency} onGroups={groups=>update(current=>{const ids=new Set(groups.map(group=>group.id));return {...current,groups,attendance:Object.fromEntries(Object.entries(current.attendance).filter(([id])=>ids.has(id)))}})} onCurrency={incomeCurrency=>update(current=>({...current,incomeCurrency}))}/>:page==='attendance'?
-    <AttendancePage groups={state.groups} attendance={state.attendance} onAttendance={updateAttendance} onEditGroups={editAttendanceGroups}/>:
+    <AttendancePage groups={state.groups} attendance={state.attendance} onToggle={toggleAttendance} onEditGroups={editAttendanceGroups}/>:
     <PeriodsPage tracking={state.periodTracking} onTracking={periodTracking=>update(current=>({...current,periodTracking}))} notificationPermission={permission} onRequestNotifications={enableNotifications}/>}
     {page==='focus'&&<footer><span><Star size={14}/> Local demo mode · everything stays on this device</span><button className="danger compact" onClick={()=>setResetOpen(true)}><RotateCcw size={15}/> Reset</button></footer>}
   </div>{editor&&<TaskEditor task={editor} onClose={()=>setEditor(null)} onSave={editor.id?editTask:addTask}/>} {resetOpen&&<ConfirmReset onClose={()=>setResetOpen(false)} onReset={()=>{resetStorage();setState(defaults());setUnlocked(true);setResetOpen(false);setToast({text:'Demo data reset'});}}/>} {notificationsOpen&&<NotificationCenter items={reminderItems} dueIds={new Set(unreadDue.map(item=>item.id))} permission={permission} onClose={()=>setNotificationsOpen(false)} onEnable={enableNotifications} onDismissDue={()=>update(current=>({...current,notifications:{...current.notifications,dismissed:[...new Set([...current.notifications.dismissed,...dueReminders.map(item=>item.id)])]}}))}/>} {privacyOpen&&<DataPrivacyModal state={state} onClose={()=>setPrivacyOpen(false)} onRestore={restored=>{setState(restored);setUnlocked(!restored.privacy.pinHash);setPrivacyOpen(false);setToast({text:'Backup restored'})}} onPrivacy={privacy=>update(current=>({...current,privacy}))} onNotifications={notifications=>update(current=>({...current,notifications}))} onLock={()=>{setPrivacyOpen(false);setUnlocked(false)}}/>} {toast&&<div className={`toast ${toast.kind||''}`} role="status">{toast.kind==='celebrate'&&<img src={assets.mascots.threeTasks} alt=""/>}<span>{toast.text}</span><button aria-label="Close" onClick={()=>setToast(null)}><X size={16}/></button></div>}</main>;

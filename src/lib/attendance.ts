@@ -21,3 +21,8 @@ export const attendanceRate = (ledger:AttendanceLedger,groupId:string,children:C
   const present=children.reduce((sum,child)=>sum+childAttendance(ledger,groupId,child,dates).attended.length,0);
   return Math.round(present/possible*100);
 };
+
+export const toggleAttendancePresence = (ledger:AttendanceLedger,groupId:string,date:string,childId:string):AttendanceLedger => {
+  const present=ledger[groupId]?.[date]||[],next=present.includes(childId)?present.filter(id=>id!==childId):[...present,childId];
+  return {...ledger,[groupId]:{...(ledger[groupId]||{}),[date]:next}};
+};
