@@ -1,0 +1,24 @@
+{
+  "name": "Focus Tool",
+  "short_name": "Focus Tool",
+  "description": "A magical focus timer, group organizer, payment tracker, and attendance register.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7c4cf",
+  "theme_color": "#f7c4cf",
+  "icons": [
+    {
+      "src": "icons/focus-tool-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/focus-tool-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
