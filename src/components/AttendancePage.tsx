@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import { CalendarCheck2, ChevronLeft, ChevronRight, ClipboardCheck, Settings2, UsersRound, X } from 'lucide-react';
 import { assets } from '../assets/manifest';
 import { attendanceRate, childAttendance, lessonDatesForMonth, shortWeekdayLabels } from '../lib/attendance';
@@ -10,7 +10,7 @@ const moveMonth=(monthKey:string,offset:number)=>{const [year,month]=monthKey.sp
 const monthTitle=(monthKey:string)=>{const [year,month]=monthKey.split('-').map(Number);return new Intl.DateTimeFormat('en-US',{month:'long',year:'numeric'}).format(new Date(year,month-1,1))};
 const dateLabel=(dateKey:string,full=false)=>new Date(`${dateKey}T12:00:00`).toLocaleDateString('en-US',full?{weekday:'short',month:'short',day:'numeric'}:{weekday:'short',day:'numeric'});
 
-export function AttendancePage({groups,attendance,onAttendance,onEditGroups}:{groups:Group[];attendance:AttendanceLedger;onAttendance:(attendance:AttendanceLedger)=>void;onEditGroups:()=>void}) {
+export const AttendancePage=memo(function AttendancePage({groups,attendance,onAttendance,onEditGroups}:{groups:Group[];attendance:AttendanceLedger;onAttendance:(attendance:AttendanceLedger)=>void;onEditGroups:()=>void}) {
   const [openGroupId,setOpenGroupId]=useState<string|null>(null);
   const [monthKey,setMonthKey]=useState(monthKeyNow());
   useEffect(()=>{if(openGroupId&&!groups.some(group=>group.id===openGroupId))setOpenGroupId(null)},[groups,openGroupId]);
@@ -46,4 +46,4 @@ export function AttendancePage({groups,attendance,onAttendance,onEditGroups}:{gr
       </>}
     </section></div>}
   </section>;
-}
+});

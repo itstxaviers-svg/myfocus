@@ -45,23 +45,25 @@ export function App() {
   const [saved,setSaved] = useState(true);
   const [unlocked,setUnlocked] = useState(()=>!state.privacy.pinHash);
   const hiddenAt=useRef<number|null>(null);
+  const latestState=useRef(state);
   const clock = useClock();
   const today = localDateKey(clock);
   const timer = state.activeTimer;
   const remaining = timer.status === 'running' && timer.endsAt ? Math.max(0, Math.ceil((timer.endsAt-now)/1000)) : timer.remainingSeconds;
   const permission=useMemo(()=>notificationPermission(),[permissionVersion]);
-  const reminders=useMemo(()=>buildReminders(state,now),[state,Math.floor(now/60_000)]);
+  const reminders=useMemo(()=>buildReminders(state,now),[state.tasks,state.periodTracking,state.privacy.lastBackupAt,Math.floor(now/60_000)]);
   const reminderItems=useMemo(()=>visibleReminders(reminders,now),[reminders,Math.floor(now/60_000)]);
   const dueReminders=useMemo(()=>reminders.filter(item=>isReminderDue(item,now)),[reminders,Math.floor(now/60_000)]);
   const unreadDue=dueReminders.filter(item=>!state.notifications.dismissed.includes(item.id));
 
-  useEffect(()=> { setSaved(save(state)); }, [state]);
+  useEffect(()=> { latestState.current=state;const id=window.setTimeout(()=>setSaved(save(state)),180);return()=>window.clearTimeout(id); }, [state]);
+  useEffect(()=>{const flush=()=>save(latestState.current);window.addEventListener('pagehide',flush);return()=>window.removeEventListener('pagehide',flush)},[]);
   useEffect(()=> { const sync=()=>setPage(pageFromHash()); window.addEventListener('hashchange',sync); return()=>window.removeEventListener('hashchange',sync); },[]);
   useEffect(()=> { const id=window.setInterval(()=>setNow(Date.now()),1000); return()=>clearInterval(id); },[]);
   useEffect(()=> { document.title = timer.status === 'running' ? `${format(remaining)} • Focus Tool` : 'Focus Tool'; },[remaining,timer.status]);
   useEffect(()=> { if (!toast) return; const id=window.setTimeout(()=>setToast(null), toast.kind==='celebrate'?5500:2500); return()=>clearTimeout(id); },[toast]);
 
-  const update = useCallback((fn:(s:FocusToolState)=>FocusToolState) => {setSaved(false);setState(old=>fn(old))},[]);
+  const update = useCallback((fn:(s:FocusToolState)=>FocusToolState) => {setSaved(false);setState(old=>{const next=fn(old);latestState.current=next;return next})},[]);
   useEffect(()=>{if(permission==='granted'&&!state.notifications.enabled)update(current=>({...current,notifications:{...current.notifications,enabled:true}}))},[permission,state.notifications.enabled,update]);
   useEffect(()=>{if(!state.notifications.enabled||permission!=='granted')return;const pending=dueReminders.filter(item=>!state.notifications.delivered.includes(item.id)&&!state.notifications.dismissed.includes(item.id));if(!pending.length)return;let active=true;Promise.all(pending.map(async item=>await showSystemNotification(item,state.notifications.privateMode)?item.id:null)).then(ids=>{const delivered=ids.filter((id):id is string=>Boolean(id));if(active&&delivered.length)update(current=>({...current,notifications:{...current.notifications,delivered:[...new Set([...current.notifications.delivered,...delivered])]}}))});return()=>{active=false}},[dueReminders,permission,state.notifications.enabled,state.notifications.privateMode,state.notifications.delivered,state.notifications.dismissed,update]);
   useEffect(()=>{if(state.notifications.enabled)syncReminderSchedule(reminders,state.notifications.privateMode)},[reminders,state.notifications.enabled,state.notifications.privateMode]);
@@ -96,7 +98,9 @@ export function App() {
   const selectedTasks=state.tasks.filter(t=>t.scheduledDate===selectedDate).sort((a,b)=>a.order-b.order);
   const progress=timer.plannedSeconds?Math.min(100,Math.max(0,(1-remaining/timer.plannedSeconds)*100)):0;
   const todayCount=todayTasks(state,today).length, completeCount=completedToday(state,today).length, focusMin=focusMinutesToday(state,today), dailyPts=pointsToday(state,today);
-  const navigate=(next:AppPage)=>{setPage(next);window.location.hash=next==='focus'?'':next};
+  const navigate=useCallback((next:AppPage)=>{setPage(next);window.location.hash=next==='focus'?'':next},[]);
+  const updateAttendance=useCallback((attendance:FocusToolState['attendance'])=>update(current=>({...current,attendance})),[update]);
+  const editAttendanceGroups=useCallback(()=>navigate('groups'),[navigate]);
   if(state.privacy.pinHash&&!unlocked)return <LockScreen pinHash={state.privacy.pinHash} onUnlock={()=>setUnlocked(true)}/>;
   return <main className="page"><div className="organizer">
     <img className="shell-deco shell-stars" src={assets.decorations.sparkles} alt=""/>
@@ -110,7 +114,7 @@ export function App() {
     </section>
     <Stats state={state} completed={completeCount} total={todayCount} focus={focusMin} points={dailyPts}/></>:page==='groups'?
     <GroupsPage groups={state.groups} currency={state.incomeCurrency} onGroups={groups=>update(current=>{const ids=new Set(groups.map(group=>group.id));return {...current,groups,attendance:Object.fromEntries(Object.entries(current.attendance).filter(([id])=>ids.has(id)))}})} onCurrency={incomeCurrency=>update(current=>({...current,incomeCurrency}))}/>:page==='attendance'?
-    <AttendancePage groups={state.groups} attendance={state.attendance} onAttendance={attendance=>update(current=>({...current,attendance}))} onEditGroups={()=>navigate('groups')}/>:
+    <AttendancePage groups={state.groups} attendance={state.attendance} onAttendance={updateAttendance} onEditGroups={editAttendanceGroups}/>:
     <PeriodsPage tracking={state.periodTracking} onTracking={periodTracking=>update(current=>({...current,periodTracking}))} notificationPermission={permission} onRequestNotifications={enableNotifications}/>}
     {page==='focus'&&<footer><span><Star size={14}/> Local demo mode · everything stays on this device</span><button className="danger compact" onClick={()=>setResetOpen(true)}><RotateCcw size={15}/> Reset</button></footer>}
   </div>{editor&&<TaskEditor task={editor} onClose={()=>setEditor(null)} onSave={editor.id?editTask:addTask}/>} {resetOpen&&<ConfirmReset onClose={()=>setResetOpen(false)} onReset={()=>{resetStorage();setState(defaults());setUnlocked(true);setResetOpen(false);setToast({text:'Demo data reset'});}}/>} {notificationsOpen&&<NotificationCenter items={reminderItems} dueIds={new Set(unreadDue.map(item=>item.id))} permission={permission} onClose={()=>setNotificationsOpen(false)} onEnable={enableNotifications} onDismissDue={()=>update(current=>({...current,notifications:{...current.notifications,dismissed:[...new Set([...current.notifications.dismissed,...dueReminders.map(item=>item.id)])]}}))}/>} {privacyOpen&&<DataPrivacyModal state={state} onClose={()=>setPrivacyOpen(false)} onRestore={restored=>{setState(restored);setUnlocked(!restored.privacy.pinHash);setPrivacyOpen(false);setToast({text:'Backup restored'})}} onPrivacy={privacy=>update(current=>({...current,privacy}))} onNotifications={notifications=>update(current=>({...current,notifications}))} onLock={()=>{setPrivacyOpen(false);setUnlocked(false)}}/>} {toast&&<div className={`toast ${toast.kind||''}`} role="status">{toast.kind==='celebrate'&&<img src={assets.mascots.threeTasks} alt=""/>}<span>{toast.text}</span><button aria-label="Close" onClick={()=>setToast(null)}><X size={16}/></button></div>}</main>;
