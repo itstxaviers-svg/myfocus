@@ -538,12 +538,12 @@ body, button, input, textarea, select {
 .attendance-table tbody th small { color: #7b8496; font-size: 8px; font-weight: 400; }
 .attendance-table .future { opacity: .42; }
 .attendance-avatar { display: grid!important; place-items: center; flex: none; width: 31px; height: 31px; border: 2px solid #ef88aa; border-radius: 50%; background: linear-gradient(#ffdbea,#dacbff); color: #764d8a!important; font-size: 11px!important; font-weight: 700; }
-.attendance-check { display: grid; place-items: center; cursor: pointer; }
-.attendance-check input { position: absolute; width: 1px; height: 1px; opacity: 0; }
-.attendance-check span { display: grid; place-items: center; width: 30px; height: 30px; border: 2px solid #e7a8bc; border-radius: 10px; background: #fffdf7; color: transparent; box-shadow: inset 0 2px #fff; }
-.attendance-check input:checked+span { border-color: #36a985; background: linear-gradient(#8be0bc,#49c993); color: #fff; box-shadow: 0 2px 0 #248e6d,inset 0 2px rgba(255,255,255,.7); }
-.attendance-check input:focus-visible+span { outline: 3px solid #785ee0; outline-offset: 2px; }
-.attendance-check input:disabled+span { cursor: not-allowed; }
+.attendance-check { display: grid; place-items: center; margin: auto; padding: 0; border: 0; background: transparent; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.attendance-check:active { transform: none; }
+.attendance-check span { display: grid; place-items: center; width: 30px; height: 30px; border: 2px solid #e7a8bc; border-radius: 10px; background: #fffdf7; color: transparent; box-shadow: inset 0 2px #fff; pointer-events: none; }
+.attendance-check[aria-checked="true"] span { border-color: #36a985; background: linear-gradient(#8be0bc,#49c993); color: #fff; box-shadow: 0 2px 0 #248e6d,inset 0 2px rgba(255,255,255,.7); }
+.attendance-check:focus-visible span { outline: 3px solid #785ee0; outline-offset: 2px; }
+.attendance-check:disabled span { cursor: not-allowed; }
 .report-rate { display: grid; justify-items: end; }
 .report-rate span { color: #69758b; font-size: 9px; }
 .report-rate strong { color: #22906e; font-size: 25px; }
