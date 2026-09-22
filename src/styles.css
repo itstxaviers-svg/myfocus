@@ -953,6 +953,12 @@ body:has(.modal-backdrop) { overflow: hidden; }
 .marker-main small,.marker-main em { overflow: hidden; color: #707b90; font-size: 9px; font-style: normal; text-overflow: ellipsis; white-space: nowrap; }
 .period-empty { display: grid; justify-items: center; gap: 5px; padding: 22px 12px; color: #738096; font-size: 11px; text-align: center; }
 .period-empty img { width: 58px; height: 58px; object-fit: contain; }
+.day-reminders { display: grid; gap: 10px; padding: 12px; border: 2px solid #e3b5cf; border-radius: 16px; background: linear-gradient(145deg,#fffaf2,#f4eaff); }
+.day-reminders-head { display: grid; grid-template-columns: 24px minmax(0,1fr); align-items: center; gap: 8px; color: #df4381; }
+.day-reminders-head>div { display: grid; gap: 2px; }
+.day-reminders-head strong { color: #29436f; font-size: 12px; }
+.day-reminders-head small { color: #778196; font-size: 9px; }
+.day-marker-list article { grid-template-columns: minmax(0,1fr) 36px; }
 .period-toggle { grid-template-columns: 24px 1fr!important; align-items: center; padding: 11px 12px; border: 2px solid #edb2c4; border-radius: 14px; background: #fff6f2; }
 .period-toggle input { width: 20px!important; height: 20px; accent-color: #ed4384; }
 .period-toggle span { font-weight: 700; }
