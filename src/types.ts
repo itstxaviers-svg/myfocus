@@ -12,7 +12,7 @@ export interface Child { id:string; name:string; guardian?:string; contact?:stri
 export interface Group { id:string; name:string; description?:string; scheduleWeekdays:Weekday[]; children:Child[]; createdAt:number }
 export type AttendanceLedger = Record<string,Record<string,string[]>>;
 export interface PeriodDay { note?:string; updatedAt:number }
-export interface PeriodMarker { id:string; title:string; date:string; time:string; note?:string; reminderMinutesBefore:number[]; repeatDays?:number; completedAt?:number; lastCompletedAt?:number; createdAt:number }
+export interface PeriodMarker { id:string; kind?:'ring'|'custom'; title:string; date:string; time:string; note?:string; reminderMinutesBefore:number[]; repeatDays?:number; completedAt?:number; lastCompletedAt?:number; createdAt:number }
 export interface PeriodTracking { days:Record<string,PeriodDay>; markers:PeriodMarker[]; settings:{predictionEnabled:boolean;averageCycleDays:number;averagePeriodDays:number;periodReminderDaysBefore:number;periodReminderTime:string} }
 export interface NotificationSettings { enabled:boolean; privateMode:boolean; delivered:string[]; dismissed:string[] }
 export interface PrivacySettings { pinHash?:string; autoLockMinutes:number; lastBackupAt?:number }

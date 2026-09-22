@@ -1,6 +1,8 @@
 import type { PeriodMarker,PeriodTracking } from '../types';
 import { dateFromKey, localDateKey } from './dates';
 
+export const RING_REPEAT_DAYS=28;
+
 export const addDaysKey = (key:string,days:number) => {
   const date=dateFromKey(key);
   date.setDate(date.getDate()+days);

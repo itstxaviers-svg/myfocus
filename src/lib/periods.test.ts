@@ -1,7 +1,7 @@
 import { describe,expect,it } from 'vitest';
 import type { FocusToolState,PeriodTracking } from '../types';
 import { defaults } from '../repositories/localProgressRepository';
-import { nextMarkerDate,nextPredictedStart,periodStartDates,predictedPeriodDates } from './periods';
+import { nextMarkerDate,nextPredictedStart,periodStartDates,predictedPeriodDates,RING_REPEAT_DAYS } from './periods';
 import { buildReminders,isReminderDue } from './reminders';
 
 const tracking:PeriodTracking={days:{'2026-09-01':{updatedAt:1},'2026-09-02':{updatedAt:1},'2026-09-29':{updatedAt:1}},markers:[],settings:{predictionEnabled:true,averageCycleDays:28,averagePeriodDays:5,periodReminderDaysBefore:1,periodReminderTime:'09:00'}};
@@ -11,6 +11,7 @@ describe('period tracking',()=>{
   it('predicts only when enabled',()=>{expect(nextPredictedStart(tracking,'2026-09-30')).toBe('2026-10-27');expect(nextPredictedStart({...tracking,settings:{...tracking.settings,predictionEnabled:false}},'2026-09-30')).toBeUndefined()});
   it('returns predicted days in the requested month',()=>expect(predictedPeriodDates(tracking,'2026-10')).toEqual(['2026-10-27','2026-10-28','2026-10-29','2026-10-30','2026-10-31']));
   it('moves a recurring personal reminder to its next occurrence',()=>expect(nextMarkerDate({id:'m',title:'Ring',date:'2026-09-01',time:'09:00',reminderMinutesBefore:[1440],repeatDays:21,createdAt:1},'2026-09-30')).toBe('2026-10-13'));
+  it('moves a ring reminder forward in exact four-week intervals',()=>expect(nextMarkerDate({id:'ring',kind:'ring',title:'Remove vaginal ring',date:'2026-09-01',time:'09:00',reminderMinutesBefore:[1440],repeatDays:RING_REPEAT_DAYS,createdAt:1},'2026-10-01')).toBe('2026-10-27'));
 });
 
 describe('reminders',()=>{
