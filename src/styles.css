@@ -1005,6 +1005,17 @@ body:has(.modal-backdrop) { overflow: hidden; }
 .privacy-section-title small { color: #748095; font-size: 9px; line-height: 1.4; }
 .privacy-actions,.pin-row { display: flex; gap: 8px; }
 .privacy-actions>* { flex: 1; }
+.cloud-account { background: linear-gradient(135deg,rgba(255,255,249,.9),rgba(239,231,255,.72)); }
+.cloud-profile { display: grid; grid-template-columns: 40px minmax(0,1fr); align-items: center; gap: 10px; min-width: 0; padding: 8px 10px; border: 1px solid #eed1dd; border-radius: 13px; background: rgba(255,255,255,.65); }
+.cloud-profile>img,.cloud-profile>span { width: 40px; height: 40px; border-radius: 50%; }
+.cloud-profile>img { object-fit: cover; }
+.cloud-profile>span { display: grid; place-items: center; background: linear-gradient(145deg,#ff8fbd,#ef3f82); color: white; font-weight: 800; }
+.cloud-profile>div { display: grid; min-width: 0; }
+.cloud-profile strong,.cloud-profile small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cloud-profile strong { color: #28436e; }
+.cloud-profile small { color: #748095; font-size: 9px; }
+.google-sign-in { width: 100%; }
+.cloud-error { margin: 0; padding: 8px 10px; border-radius: 10px; background: #ffe7ec; color: #ad315f; font-size: 10px; line-height: 1.4; }
 .pin-row input { min-width: 0; flex: 1; }
 .privacy-message { margin: 0; padding: 9px 11px; border-radius: 11px; background: #f0e7ff; color: #624696; font-size: 11px; }
 .lock-screen { display: grid; place-items: center; min-height: 100dvh; padding: 20px; background: radial-gradient(circle at 25% 10%,#ffe8c0,transparent 28%),radial-gradient(circle at 85% 25%,#e3c8ff,transparent 30%),linear-gradient(145deg,#f8b4ca,#f7d0d9); }

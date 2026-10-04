@@ -1,5 +1,6 @@
 import type { FocusToolState } from '../types';
 const key = 'focus-tool:v1';
+const modifiedKey='focus-tool:modified-at';
 const currencies=['USD','EUR','GBP','RUB'];
 export const defaults = (): FocusToolState => ({ schemaVersion:2, profile:{name:''}, checkIns:{}, tasks:[], focusSessions:[], pointEvents:[], milestones:{}, activeTimer:{mode:'focus',status:'idle',plannedSeconds:1500,remainingSeconds:1500}, focusSettings:{focusMinutes:25,shortBreakMinutes:5,longBreakMinutes:20,sessionsBeforeLongBreak:4,dailyFocusGoalMinutes:90,soundEnabled:false}, completedFocusCountSinceLongBreak:0, groups:[], incomeCurrency:'RUB', attendance:{}, periodTracking:{days:{},markers:[],settings:{predictionEnabled:false,averageCycleDays:28,averagePeriodDays:5,periodReminderDaysBefore:1,periodReminderTime:'09:00'}}, notifications:{enabled:false,privateMode:true,delivered:[],dismissed:[]}, privacy:{autoLockMinutes:5} });
 
@@ -14,6 +15,8 @@ export const normalizeState = (value:unknown):FocusToolState => {
 
 export const load = (): FocusToolState => { try { const raw=localStorage.getItem(key); return raw?normalizeState(JSON.parse(raw)):defaults(); } catch(e) { console.warn('Focus Tool storage could not be read',e); return defaults(); } };
 export const save = (state: FocusToolState) => { try { localStorage.setItem(key, JSON.stringify({...state,schemaVersion:2,notifications:{...state.notifications,delivered:state.notifications.delivered.slice(-300),dismissed:state.notifications.dismissed.slice(-300)}})); return true; } catch(e) { console.warn('Focus Tool storage could not be saved',e); return false; } };
+export const getLocalModifiedAt=()=>{try{return Number(localStorage.getItem(modifiedKey))||0}catch{return 0}};
+export const setLocalModifiedAt=(value:number)=>{try{localStorage.setItem(modifiedKey,String(value))}catch{/* Local state itself remains available. */}};
 export const makeBackup = (state:FocusToolState) => JSON.stringify({kind:'focus-tool-backup',version:2,exportedAt:new Date().toISOString(),state:{...state,schemaVersion:2}},null,2);
 export const readBackup = (text:string) => { const parsed=JSON.parse(text); if(parsed?.kind!=='focus-tool-backup'||!parsed.state)throw new Error('This is not a Focus Tool backup.'); return normalizeState(parsed.state); };
-export const resetStorage = () => { try { localStorage.removeItem(key); } catch(e) { console.warn('Focus Tool storage could not be reset',e); } };
+export const resetStorage = () => { try { localStorage.removeItem(key);localStorage.removeItem(modifiedKey); } catch(e) { console.warn('Focus Tool storage could not be reset',e); } };
