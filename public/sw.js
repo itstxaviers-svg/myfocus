@@ -1,4 +1,4 @@
-const VERSION='focus-tool-v3';
+const VERSION='focus-tool-v4';
 const APP_CACHE=`${VERSION}-app`;
 const REMINDER_URL=new URL('__reminder-schedule__',self.registration.scope).toString();
 const timers=new Map();
