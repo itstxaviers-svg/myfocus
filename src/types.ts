@@ -8,7 +8,8 @@ export interface ActiveTimer { mode:Mode; status:'idle'|'running'|'paused'; task
 export type IncomeCurrency = 'USD' | 'EUR' | 'GBP' | 'RUB';
 export type Weekday = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export interface Payment { id:string; amount:number; paidAt:string; currency:IncomeCurrency; note?:string; createdAt:number; updatedAt?:number }
-export interface Child { id:string; name:string; guardian?:string; contact?:string; notes?:string; payments:Payment[]; createdAt:number }
+export interface ChildMonthlyNote { text:string; createdAt:number; updatedAt:number }
+export interface Child { id:string; name:string; guardian?:string; contact?:string; notes?:string; monthlyNotes?:Record<string,ChildMonthlyNote>; payments:Payment[]; createdAt:number; updatedAt?:number }
 export interface Group { id:string; name:string; description?:string; scheduleWeekdays:Weekday[]; children:Child[]; createdAt:number }
 export type AttendanceLedger = Record<string,Record<string,string[]>>;
 export interface PeriodDay { note?:string; updatedAt:number }
